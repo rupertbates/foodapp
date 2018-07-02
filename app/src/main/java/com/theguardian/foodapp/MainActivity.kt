@@ -9,14 +9,16 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import com.theguardian.foodapp.model.Recipe
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     // Initializing an empty ArrayList to be filled with animals
-    val items: ArrayList<String> = ArrayList()
+    val items: ArrayList<Recipe> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,18 +41,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recyclerView.adapter = FoodAdapter(fillItems(), this)
     }
 
-    fun fillItems() : ArrayList<String> {
-        items.add("one")
-        items.add("two")
-        items.add("one")
-        items.add("two")
-        items.add("one")
-        items.add("two")
-        items.add("one")
-        items.add("two")
-        items.add("one")
-        items.add("two")
-        return items
+    fun fillItems() : ArrayList<Recipe> {
+        return arrayListOf(
+                Recipe( Date(), "Alicia Scott", "", this.resources.getString(R.string.lorem_ipsum)),
+                Recipe( Date(), "Selina Cooper", "", this.resources.getString(R.string.lorem_ipsum)),
+                Recipe( Date(), "Harriet Jones", "", this.resources.getString(R.string.lorem_ipsum))
+        )
+
+
+
     }
 
     override fun onBackPressed() {

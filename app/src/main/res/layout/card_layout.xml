@@ -90,7 +90,7 @@
         android:contentDescription="@string/main_image"
         android:elevation="7dp"
         android:scaleType="centerCrop"
-        android:transitionName="list_detail_transition"
+        android:transitionName="@string/list_detail_transition"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/date"

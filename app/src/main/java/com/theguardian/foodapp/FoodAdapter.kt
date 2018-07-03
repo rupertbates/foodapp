@@ -1,8 +1,10 @@
 package com.theguardian.foodapp
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +15,8 @@ import kotlinx.android.synthetic.main.card_layout.view.*
 import org.ocpsoft.prettytime.PrettyTime
 import java.util.*
 
-class FoodAdapter(val items: ArrayList<Recipe>, val context: Context) : RecyclerView.Adapter<ViewHolder>() {
+
+class FoodAdapter(val items: ArrayList<Recipe>, val activity: Activity) : RecyclerView.Adapter<ViewHolder>() {
     val pretty = PrettyTime()
 
     override fun getItemCount(): Int {
@@ -21,7 +24,7 @@ class FoodAdapter(val items: ArrayList<Recipe>, val context: Context) : Recycler
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.card_layout, parent, false))
+        return ViewHolder(LayoutInflater.from(activity).inflate(R.layout.card_layout, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,19 +33,27 @@ class FoodAdapter(val items: ArrayList<Recipe>, val context: Context) : Recycler
         holder.bodyText.text = item.bodyText
         holder.dateText.text = pretty.format(item.publishDate.toDate())
         holder.favCount.text = item.favCount.toString()
-        Glide.with(context)
+        Glide.with(activity)
                 .load(item.profileImageUrl)
                 .into(holder.profileImage)
-        Glide.with(context)
+        Glide.with(activity)
                 .load(item.heroImageUrl)
                 .into(holder.heroImage)
-        holder.root.setOnClickListener { v ->
-            val bundle = Bundle()
-            bundle.putSerializable("item", item)
-            val i = Intent(context, DetailActivity::class.java)
-            i.putExtras(bundle)
-            context.startActivity(i)
-        }
+        holder.root.setOnClickListener { v -> onItemClick(holder, item) }
+
+    }
+
+    fun onItemClick(holder: ViewHolder, item: Recipe) {
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
+                holder.heroImage,
+                ViewCompat.getTransitionName(holder.heroImage))
+
+
+        val bundle = Bundle()
+        bundle.putSerializable("item", item)
+        val i = Intent(activity, DetailActivity::class.java)
+        i.putExtras(bundle)
+        activity.startActivity(i, options.toBundle())
     }
 }
 

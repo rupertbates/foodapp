@@ -1,8 +1,8 @@
 package com.theguardian.foodapp
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -13,7 +13,9 @@ import com.theguardian.foodapp.model.Recipe
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.joda.time.DateTime
 import java.util.*
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -41,13 +43,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recyclerView.adapter = FoodAdapter(fillItems(), this)
     }
 
-    fun fillItems() : ArrayList<Recipe> {
+    fun fillItems(): ArrayList<Recipe> {
         return arrayListOf(
-                Recipe( Date(), "Alicia Scott", "", this.resources.getString(R.string.lorem_ipsum)),
-                Recipe( Date(), "Selina Cooper", "", this.resources.getString(R.string.lorem_ipsum)),
-                Recipe( Date(), "Harriet Jones", "", this.resources.getString(R.string.lorem_ipsum))
-        )
+                Recipe(DateTime(2018, 7, 2, 12, 15),
+                        "Alicia Scott",
+                        "https://mir-s3-cdn-cf.behance.net/project_modules/1400/4e044a57601403.59dc89fd47aa3.png",
+                        this.resources.getString(R.string.lorem_ipsum),
+                        "https://drop.ndtv.com/albums/COOKS/chicken-dinner/chickendinner_640x480.jpg",
+                        1327
+                ),
+                Recipe(DateTime(2018, 7, 2, 14, 22),
 
+                        "Selina Cooper",
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvSEzCrsztb_Pk2V-gGrADAlRhH24qotxDgcMjyEUT7fRxWqff",
+                        this.resources.getString(R.string.lorem_ipsum),
+                        "https://cdn.pixabay.com/photo/2015/04/08/13/13/food-712665_960_720.jpg",
+                        8544
+                ),
+
+                Recipe(DateTime(2018, 7, 3, 9, 40),
+                        "Harriet Jones",
+                        "http://www.missingcloud.com/mc_images2014/MC_CircularProfile_Lilla_.png",
+                        this.resources.getString(R.string.lorem_ipsum),
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxIfsAFbtBRHUCDJDdrOw8Y0pWya-eZu9ZFdusOm9TxVAWzYvnNw",
+                        4567
+                )
+        )
 
 
     }

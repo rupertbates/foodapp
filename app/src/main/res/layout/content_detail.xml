@@ -9,18 +9,18 @@
     tools:showIn="@layout/activity_detail">
 
     <ImageView android:id="@+id/mainImage"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:transitionName="@string/list_detail_transition"
         android:contentDescription="@string/main_image"
+        android:scaleType="centerCrop"
+        android:transitionName="@string/list_detail_transition_hero_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,7:5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/salmon" />
+        app:srcCompat="@drawable/fish_pie" />
 
     <ImageView android:id="@+id/profileImage"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +98,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:transitionName="@string/list_detail_transition_body_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

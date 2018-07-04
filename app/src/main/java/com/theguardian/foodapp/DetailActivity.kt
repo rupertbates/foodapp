@@ -1,12 +1,15 @@
 package com.theguardian.foodapp
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.theguardian.foodapp.model.Recipe
-
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail.*
 import org.ocpsoft.prettytime.PrettyTime
@@ -27,13 +30,26 @@ class DetailActivity : AppCompatActivity() {
     }
 
     fun bindViews(bundle: Any) {
-        if(bundle is Recipe) {
+        if (bundle is Recipe) {
+            supportPostponeEnterTransition()
             Glide.with(this)
                     .load(bundle.profileImageUrl)
                     .into(profileImage)
-//            Glide.with(this)
-//                    .load(bundle.heroImageUrl)
-//                    .into(mainImage)
+            Glide.with(this)
+                    .load(bundle.heroImageUrl)
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            supportStartPostponedEnterTransition()
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            mainImage.setImageDrawable(resource)
+                            supportStartPostponedEnterTransition()
+                            return true
+                        }
+                    }).submit()
+                    //.into(mainImage)
             name.text = bundle.name
             bodyText.text = bundle.bodyText
             date.text = PrettyTime().format(bundle.publishDate.toDate())

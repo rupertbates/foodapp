@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -44,10 +45,9 @@ class FoodAdapter(val items: ArrayList<Recipe>, val activity: Activity) : Recycl
     }
 
     fun onItemClick(holder: ViewHolder, item: Recipe) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,
-                holder.heroImage,
-                ViewCompat.getTransitionName(holder.heroImage))
-
+        val p1 = Pair.create(holder.heroImage as View, ViewCompat.getTransitionName(holder.heroImage))
+        val p2 = Pair.create(holder.bodyText as View, ViewCompat.getTransitionName(holder.bodyText))
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, p1, p2)
 
         val bundle = Bundle()
         bundle.putSerializable("item", item)

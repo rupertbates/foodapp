@@ -11,5 +11,6 @@
     <string name="main_image">Main image</string>
     <string name="profile_image">Profile image</string>
     <string name="favourite_button">Favourite button</string>
-    <string name="list_detail_transition">list_detail_transition</string>
+    <string name="list_detail_transition_hero_image">list_detail_transition</string>
+    <string name="list_detail_transition_body_text">list_detail_transition_body_text</string>
 </resources>

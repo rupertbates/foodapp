@@ -1,6 +1,7 @@
 package com.theguardian.foodapp.view
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -22,7 +23,8 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private val recipeService = RecipeService() //Could inject this
-    private val disposable = CompositeDisposable()
+    private val disposables = CompositeDisposable()
+    private var recyclerViewState: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,18 +42,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onResume() {
         super.onResume()
-        disposable.add(recipeService.getRecipes()
+        disposables.add(recipeService.getRecipes()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateView, this::onError))
     }
 
     override fun onPause() {
         super.onPause()
-        disposable.clear()
+        disposables.clear()
+        recyclerViewState = recyclerView.layoutManager.onSaveInstanceState() //Handles scroll position - could save this in instanceState
     }
 
     private fun updateView(recipes: List<Recipe>) {
         recyclerView.adapter = FoodAdapter(recipes, this)
+        if (recyclerViewState != null)
+            recyclerView.layoutManager.onRestoreInstanceState(recyclerViewState)
     }
 
     private fun onError(throwable: Throwable) {

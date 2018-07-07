@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.theguardian.foodapp.R
 import com.theguardian.foodapp.model.Recipe
+import com.theguardian.foodapp.service.FavouriteService
 import com.theguardian.foodapp.service.RecipeService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -20,7 +21,10 @@ import org.ocpsoft.prettytime.PrettyTime
 
 class DetailActivity : AppCompatActivity() {
 
-    private val recipeService = RecipeService() //Could inject this
+    //Could inject these
+    private val recipeService = RecipeService()
+    private val favouriteService = FavouriteService(recipeService)
+
     private val disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,10 +68,10 @@ class DetailActivity : AppCompatActivity() {
             bodyText.text = recipe.bodyText
             date.text = PrettyTime().format(recipe.publishDate.toDate())
             favCount.text = recipe.favCount.toString()
-            val isFavourite = recipeService.isRecipeAFavourite(recipe.id)
+            val isFavourite = favouriteService.isRecipeAFavourite(recipe.id)
             setFavouriteIcon(isFavourite)
             fab.setOnClickListener {
-                disposables.add(recipeService.setFavourite(recipe.id, !isFavourite)
+                disposables.add(favouriteService.setFavourite(recipe.id, !isFavourite)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(::bindViews, ::onError))

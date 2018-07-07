@@ -35,6 +35,4 @@ object StubApi {
             )
     )
 
-    // Represents the users favourites - store this somewhere locally and also sync to server
-    val favourites: MutableList<Int> = mutableListOf()
 }
